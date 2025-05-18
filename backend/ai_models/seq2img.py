@@ -3,6 +3,7 @@ import torch.nn as nn
 import lightning as L
 from sentence_transformers import SentenceTransformer
 
+# MODELO ORIGINAL EN ESPERA DE UNA PUBLICACION; ME SUICIDO SI ALGUIEN LO ROBA
 class seq2seq(L.LightningModule):
     def __init__(self):
         super().__init__()

@@ -1,9 +1,9 @@
-import PIL.Image
 import torch
+import torch.nn.functional as F
 from ai_models.vq_unet import pretrained_vqunet_encoder
 from ai_models.seq2img import PretrainedModel
 from utils.preproccess import utility
-import PIL
+
 class AIhandler:
     def __init__(self, vq_unet_device: str="cuda", seq2img_device: str="cuda", vqunet_weights_path: str="pretrainedweights/finished_encoder.pth", seq2img_weights_path: str="pretrainedweights/finalseq.pth"):
         self.vq_unet_weights_path = vqunet_weights_path
@@ -27,5 +27,17 @@ class AIhandler:
         if not tensor:
             image = self.utility.transform(image)
         image = self.utility.transform_image(image=image)
-        skips = self.vq_unet.forward(image)
+        with torch.no_grad():
+            skips = self.vq_unet.forward(image)
         return skips
+
+# DIFERENCIA EN L2, QUEDA PENDIENTE IMPLEMENTAR UN POSIBLE EXPONENTIAL MOVING AVERAGE.
+    def FindDifferenceBetweenCodebooks(self, codebook1: list, codebook2: list, weight1: float =1, weight2: float = 1, weight3: float = 1, weight4: float = 1):
+        d1,d2,d3,d4 = 0,0,0,0
+        for i, x in enumerate(codebook1):
+            with torch.no_grad():
+                codebook1[i] = (F.mse_loss(x, codebook2[i])).item()
+        d1,d2,d3,d4 = codebook1
+        d1,d2,d3,d4 = d1*weight1, d2*weight2, d3*weight3, d4*weight4
+        difference = (d1+d2+d3+d4)
+        return difference
