@@ -1,1 +1,13 @@
 # arre
+SETUP BACKEND-
+HAZLE TAR AL ARCHIVO EN BACKEND/DATA Y LUEGO ASEGURATE DE TENER UNA CARPETA LLAMADA "images" EN BACKEND/DATA
+
+DESPUES INSTALA LAS DEPENDENCIAS QUE SON
+
+
+pytorch
+lightning
+fastapi[standard]
+sentence-transformers
+Pillow
+numpy
