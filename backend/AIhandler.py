@@ -36,8 +36,8 @@ class AIhandler:
         d1,d2,d3,d4 = 0,0,0,0
         for i, x in enumerate(codebook1):
             with torch.no_grad():
-                codebook1[i] = (F.mse_loss(x, codebook2[i])).item()
+                codebook1[i] = (F.mse_loss(x, codebook2[i]))
         d1,d2,d3,d4 = codebook1
         d1,d2,d3,d4 = d1*weight1, d2*weight2, d3*weight3, d4*weight4
-        difference = (d1+d2+d3+d4)
+        difference = (d1+d2+d3+d4).item()
         return difference
