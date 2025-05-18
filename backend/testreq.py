@@ -1,15 +1,33 @@
 import requests
-
-
+import argparse
 
 url = "http://localhost:8000/query/"
 
-payload = {
-    "classes": ["person"],
-    "queryFORAI": "pajaro",
-    "inclusivo": True
-}
+# Create an ArgumentParser instance
+parser = argparse.ArgumentParser(description="Send a query to the FastAPI backend.")
 
+# Add arguments
+parser.add_argument("--c", nargs="+", required=True, help="List of classes (e.g., dog sofa)")
+parser.add_argument("--q", type=str, default=None, help="Query string for AI (optional)")
+parser.add_argument("--i", dest='inclusivo', action='store_true', help="Set to inclusive (default)")
+parser.add_argument("--n", dest='inclusivo', action='store_false', help="Set to not inclusive")
+parser.set_defaults(inclusivo=True)
+
+# Parse arguments
+args = parser.parse_args()
+
+# Print received arguments
+print("Received arguments:")
+print(f"  Classes: {args.c}")
+print(f"  Query FOR AI: {args.q}")
+print(f"  Inclusivo: {args.inclusivo}")
+print("-" * 20) # Separator
+
+payload = {
+    "classes": args.c,
+    "queryFORAI": args.q,
+    "inclusivo": args.inclusivo
+}
 
 try:
     response = requests.post(url, json=payload)
