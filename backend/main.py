@@ -21,19 +21,36 @@ async def queryAI(label_query: LabelQuery):
     res = {"results": get_image_details_for_class(classes, Path("data/Annotations"), label_query.inclusivo)}
     if len(res) == 0:
         return {"error": "No results found"}
+    
     if query is None:
-        return res
+        newres = []
+        for y in res["results"]:
+            newres.append({
+                'image_filename': y['image_filename'],
+                'bboxes': y["bboxes"]})
+        return {"results": newres}
  
     codebookTEXTO = handler.GenerateSeqCodebooks(query)
     filenames = [x["image_filename"] for x in res["results"]]
     TOSORT = []
-    for file in filenames:
+    for i,file in enumerate(filenames):
         img = PIL.Image.open("data/images/"+file)
         codebookIMAGEN = handler.GenerateImageCodebooks(img)
         dif = handler.FindDifferenceBetweenCodebooks(codebookTEXTO, codebookIMAGEN)
         TOSORT.append({file: dif})
     TOSORT.sort(key=lambda x: list(x.values())[0])
-    return {TOSORT, res}
+    newres = []
+    for y in res["results"]:
+        current = [x for x in TOSORT if list(x.keys())[0] == y["image_filename"]][0]
+        current = list(current.values())[0]
+        newres.append({
+            'image_filename': y['image_filename'],
+            'bboxes': y["bboxes"],
+            'score': current,
+        })
+    
+    newres.sort(key=lambda x: list(x.values())[-1])
+    return {"results": newres}
         
 
 @app.get("/images/{image_filename}")

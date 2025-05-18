@@ -34,10 +34,14 @@ class AIhandler:
 # DIFERENCIA EN L2, QUEDA PENDIENTE IMPLEMENTAR UN POSIBLE EXPONENTIAL MOVING AVERAGE.
     def FindDifferenceBetweenCodebooks(self, codebook1: list, codebook2: list, weight1: float =1, weight2: float = 1, weight3: float = 1, weight4: float = 1):
         d1,d2,d3,d4 = 0,0,0,0
-        for i, x in enumerate(codebook1):
+        
+        temporary = []
+        for i,x in enumerate(codebook1):
+            
             with torch.no_grad():
-                codebook1[i] = (F.mse_loss(x, codebook2[i]))
-        d1,d2,d3,d4 = codebook1
+                temporary.append( (F.mse_loss(x, codebook2[i])))
+            
+        d1,d2,d3,d4 = temporary
         d1,d2,d3,d4 = d1*weight1, d2*weight2, d3*weight3, d4*weight4
         difference = (d1+d2+d3+d4).item()
         return difference

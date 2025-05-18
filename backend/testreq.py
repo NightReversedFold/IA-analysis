@@ -8,7 +8,7 @@ url = "http://localhost:8000/query/"
 # Example data matching the LabelQuery model
 payload = {
     "classes": ["bird", "dog"],
-    "queryFORAI": "This is an optional query string",
+    "queryFORAI": "pajaro",
     "inclusivo": True
 }
 
