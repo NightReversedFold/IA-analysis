@@ -1,6 +1,7 @@
 import torch.nn as nn
 import torch
 import lightning as L
+from utils.preproccess import utility
 
 # IMPLEMENTACION HECHA A MANO DE UNA ARQUITECTURA UNET
 # NO HABIA CODIGO PARA ESTA, POR LO TANTO SE HIZO A MANO, Y SE ENTRENO DE 0
@@ -43,3 +44,19 @@ class VQUNet(L.LightningModule):
             skip_connections_quantized.append(quantized_features)
             current_features = encoded_features
         return skip_connections_quantized
+    
+class pretrained_vqunet_encoder():
+    def __init__(self, in_channels: int=3, codebook_size: int=512, encoder_channel_dims: dict =[64, 128, 256, 512], commitment_cost: int=0.25, device: str="cpu"):
+        super(pretrained_vqunet_encoder, self).__init__()
+        self.model = VQUNet(in_channels, codebook_size, encoder_channel_dims, commitment_cost)
+        self.model.load_state_dict(torch.load("pretrainedweights/finished_encoder.pth", map_location=device)["model_state_dict"], strict=False)
+        self.model.eval()
+        self.utility = utility()
+    def forward(self, x: torch.Tensor):
+        x = self.utility.transform_image(image=x)
+        with torch.no_grad():
+            skips = self.model(x)
+        return skips
+    def to(self, device):
+        self.model.to(device)
+        return self

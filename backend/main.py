@@ -7,18 +7,14 @@ d = a.forward(["coche"])
 for x in d:
     print(x.shape)
 
-from vq_unet import VQUNet
+from vq_unet import pretrained_vqunet_encoder
 from utils.preproccess import utility
 
-b = VQUNet()
-b.load_state_dict(torch.load("pretrainedweights/finished_encoder.pth", map_location="cpu")["model_state_dict"], strict=False)
+b = pretrained_vqunet_encoder()
 import torch.nn.functional as F
 h = utility()
 def transformIMAGE(image):
-    image = utility.transform_image(image=image)
-    with torch.no_grad():
-        skips = b(image)
-
+    skips = b.forward(image)
     return skips
 from PIL import Image
 import torchvision.transforms as transforms

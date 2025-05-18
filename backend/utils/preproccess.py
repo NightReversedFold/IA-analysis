@@ -9,7 +9,7 @@ class utility():
         super().__init__()
         self.transform = transforms.Compose([
             transforms.ToTensor()])
-    def transform_image(image: torch.tensor, device: str = "cpu", batch: bool = False):
+    def transform_image(self, image: torch.tensor, device: str = "cpu", batch: bool = False):
         if not batch:
             image = image.unsqueeze(0)
         image = image.float()
