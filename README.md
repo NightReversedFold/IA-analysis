@@ -11,3 +11,4 @@ fastapi[standard]
 sentence-transformers
 Pillow
 numpy
+tqdm
