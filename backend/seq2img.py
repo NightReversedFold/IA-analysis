@@ -106,10 +106,14 @@ class PretrainedModel():
     def __init__(self):
         super().__init__()
         self.model = seq2seq()
-        self.model.load_state_dict("pretrainedweights/finalseq.pth")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.model.load_state_dict(torch.load("pretrainedweights/finalseq.pth", map_location=device))
         self.model.eval()
     def forward(self, sentences_batch):
         with torch.no_grad():
-            return self.model(sentences_batch)
+            returned = self.model.forward(sentences_batch)[0][::-1]
+            for i in range(len(returned)):
+                returned[i] = returned[i].cpu()
+            return returned
     def to(self, device):
         self.model.to(device)
