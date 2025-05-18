@@ -42,6 +42,10 @@ class AIhandler:
                 temporary.append( (F.mse_loss(x, codebook2[i])))
             
         d1,d2,d3,d4 = temporary
+        del temporary
+        del codebook1
+        del codebook2
+        
         d1,d2,d3,d4 = d1*weight1, d2*weight2, d3*weight3, d4*weight4
         difference = (d1+d2+d3+d4).item()
         return difference

@@ -7,6 +7,7 @@ from fastapi.responses import FileResponse
 from pathlib import Path
 from utils.retrieve import get_image_details_for_class
 import PIL.Image
+from tqdm import tqdm
 
 app = FastAPI()
 
@@ -33,7 +34,7 @@ async def queryAI(label_query: LabelQuery):
     codebookTEXTO = handler.GenerateSeqCodebooks(query)
     filenames = [x["image_filename"] for x in res["results"]]
     TOSORT = []
-    for i,file in enumerate(filenames):
+    for i,file in enumerate(tqdm(filenames)):
         img = PIL.Image.open("data/images/"+file)
         codebookIMAGEN = handler.GenerateImageCodebooks(img)
         dif = handler.FindDifferenceBetweenCodebooks(codebookTEXTO, codebookIMAGEN)
