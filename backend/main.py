@@ -1,6 +1,6 @@
 
 from AIhandler import AIhandler
-handler = AIhandler()
+handler: AIhandler = AIhandler()
 from fastapi import FastAPI
 from pydantic import BaseModel
 from fastapi.responses import FileResponse
