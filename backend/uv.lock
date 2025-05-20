@@ -1,0 +1,426 @@
+version = 1
+revision = 2
+requires-python = ">=3.9"
+resolution-markers = [
+    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version >= '3.12' and sys_platform == 'darwin'",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin'",
+    "python_full_version < '3.10' and sys_platform == 'darwin'",
+]
+
+[[package]]
+name = "backend"
+version = "0.1.0"
+source = { virtual = "." }
+dependencies = [
+    { name = "torch", version = "2.8.0.dev20250520", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "sys_platform == 'darwin'" },
+    { name = "torch", version = "2.8.0.dev20250520+cpu", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "sys_platform != 'darwin'" },
+    { name = "torchvision", version = "0.22.0.dev20250520", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
+    { name = "torchvision", version = "0.22.0.dev20250520+cpu", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "torch", specifier = ">=2.8.0.dev20250520" },
+    { name = "torchvision", specifier = ">=0.22.0.dev20250520" },
+]
+
+[[package]]
+name = "filelock"
+version = "3.16.1"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/filelock-3.16.1-py3-none-any.whl" },
+]
+
+[[package]]
+name = "fsspec"
+version = "2024.10.0"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/fsspec-2024.10.0-py3-none-any.whl" },
+]
+
+[[package]]
+name = "jinja2"
+version = "3.1.4"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+dependencies = [
+    { name = "markupsafe" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/Jinja2-3.1.4-py3-none-any.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/jinja2-3.1.4-py3-none-any.whl" },
+]
+
+[[package]]
+name = "markupsafe"
+version = "2.1.5"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+sdist = { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5.tar.gz" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp310-cp310-macosx_10_9_universal2.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp310-cp310-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp310-cp310-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp310-cp310-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp311-cp311-macosx_10_9_universal2.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp311-cp311-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp311-cp311-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp311-cp311-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp312-cp312-macosx_10_9_universal2.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp312-cp312-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp312-cp312-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp312-cp312-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp39-cp39-macosx_10_9_universal2.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp39-cp39-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp39-cp39-manylinux_2_5_i686.manylinux1_i686.manylinux_2_17_i686.manylinux2014_i686.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/MarkupSafe-2.1.5-cp39-cp39-win_amd64.whl" },
+]
+
+[[package]]
+name = "mpmath"
+version = "1.3.0"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/mpmath-1.3.0-py3-none-any.whl" },
+]
+
+[[package]]
+name = "networkx"
+version = "3.2.1"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.10' and sys_platform == 'darwin'",
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/networkx-3.2.1-py3-none-any.whl" },
+]
+
+[[package]]
+name = "networkx"
+version = "3.4.2"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version >= '3.12' and sys_platform == 'darwin'",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin'",
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/networkx-3.4.2-py3-none-any.whl" },
+]
+
+[[package]]
+name = "numpy"
+version = "1.26.4"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.10' and sys_platform == 'darwin'",
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp310-cp310-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp310-cp310-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp310-cp310-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp311-cp311-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp311-cp311-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp311-cp311-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp312-cp312-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp312-cp312-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp312-cp312-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp39-cp39-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp39-cp39-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-1.26.4-cp39-cp39-win_amd64.whl" },
+]
+
+[[package]]
+name = "numpy"
+version = "2.1.2"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version >= '3.12' and sys_platform == 'darwin'",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin'",
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-macosx_14_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-macosx_14_0_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp310-cp310-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-macosx_10_9_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-macosx_14_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-macosx_14_0_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp311-cp311-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-macosx_10_13_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-macosx_14_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-macosx_14_0_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp312-cp312-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-macosx_10_13_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-macosx_14_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-macosx_14_0_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313t-macosx_10_13_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313t-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313t-macosx_14_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313t-macosx_14_0_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/numpy-2.1.2-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+]
+
+[[package]]
+name = "pillow"
+version = "11.0.0"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-macosx_10_10_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp310-cp310-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-macosx_10_10_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp311-cp311-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-macosx_10_13_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp312-cp312-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-macosx_10_13_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313t-macosx_10_13_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313t-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313t-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313t-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp313-cp313t-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-macosx_10_10_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-manylinux_2_17_aarch64.manylinux2014_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/pillow-11.0.0-cp39-cp39-win_arm64.whl" },
+]
+
+[[package]]
+name = "setuptools"
+version = "70.2.0"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/setuptools-70.2.0-py3-none-any.whl" },
+]
+
+[[package]]
+name = "sympy"
+version = "1.13.3"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+dependencies = [
+    { name = "mpmath" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/sympy-1.13.3-py3-none-any.whl" },
+]
+
+[[package]]
+name = "torch"
+version = "2.8.0.dev20250520"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "python_full_version >= '3.12' and sys_platform == 'darwin'",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin'",
+    "python_full_version < '3.10' and sys_platform == 'darwin'",
+]
+dependencies = [
+    { name = "filelock", marker = "sys_platform == 'darwin'" },
+    { name = "fsspec", marker = "sys_platform == 'darwin'" },
+    { name = "jinja2", marker = "sys_platform == 'darwin'" },
+    { name = "networkx", version = "3.2.1", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "python_full_version < '3.10' and sys_platform == 'darwin'" },
+    { name = "networkx", version = "3.4.2", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "python_full_version >= '3.10' and sys_platform == 'darwin'" },
+    { name = "setuptools", marker = "python_full_version >= '3.12' and sys_platform == 'darwin'" },
+    { name = "sympy", marker = "sys_platform == 'darwin'" },
+    { name = "typing-extensions", marker = "sys_platform == 'darwin'" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520-cp310-none-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520-cp311-none-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520-cp312-none-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520-cp313-cp313t-macosx_14_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520-cp313-none-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520-cp39-none-macosx_11_0_arm64.whl" },
+]
+
+[[package]]
+name = "torch"
+version = "2.8.0.dev20250520+cpu"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+]
+dependencies = [
+    { name = "filelock", marker = "sys_platform != 'darwin'" },
+    { name = "fsspec", marker = "sys_platform != 'darwin'" },
+    { name = "jinja2", marker = "sys_platform != 'darwin'" },
+    { name = "networkx", version = "3.2.1", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "python_full_version < '3.10' and sys_platform != 'darwin'" },
+    { name = "networkx", version = "3.4.2", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "python_full_version >= '3.10' and sys_platform != 'darwin'" },
+    { name = "setuptools", marker = "python_full_version >= '3.12' and sys_platform != 'darwin'" },
+    { name = "sympy", marker = "sys_platform != 'darwin'" },
+    { name = "typing-extensions", marker = "sys_platform != 'darwin'" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp310-cp310-linux_s390x.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp310-cp310-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp310-cp310-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp310-cp310-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp311-cp311-linux_s390x.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp311-cp311-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp311-cp311-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp311-cp311-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp312-cp312-linux_s390x.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp312-cp312-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp312-cp312-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp312-cp312-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313-linux_s390x.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313-win_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313t-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313t-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp313-cp313t-win_amd64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp39-cp39-linux_s390x.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp39-cp39-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp39-cp39-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torch-2.8.0.dev20250520%2Bcpu-cp39-cp39-win_amd64.whl" },
+]
+
+[[package]]
+name = "torchvision"
+version = "0.22.0.dev20250520"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "python_full_version >= '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux'",
+    "python_full_version >= '3.12' and sys_platform == 'darwin'",
+    "python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform == 'darwin'",
+    "python_full_version < '3.10' and sys_platform == 'darwin'",
+]
+dependencies = [
+    { name = "numpy", version = "1.26.4", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(python_full_version < '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform == 'darwin')" },
+    { name = "numpy", version = "2.1.2", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(python_full_version >= '3.10' and platform_machine == 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and sys_platform == 'darwin')" },
+    { name = "pillow", marker = "(platform_machine == 'aarch64' and sys_platform == 'linux') or sys_platform == 'darwin'" },
+    { name = "torch", version = "2.8.0.dev20250520", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "sys_platform == 'darwin'" },
+    { name = "torch", version = "2.8.0.dev20250520+cpu", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "platform_machine == 'aarch64' and sys_platform == 'linux'" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp310-cp310-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp310-cp310-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp311-cp311-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp311-cp311-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp312-cp312-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp312-cp312-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp313-cp313-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp313-cp313-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp313-cp313t-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp313-cp313t-manylinux_2_28_aarch64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp39-cp39-macosx_11_0_arm64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520-cp39-cp39-manylinux_2_28_aarch64.whl" },
+]
+
+[[package]]
+name = "torchvision"
+version = "0.22.0.dev20250520+cpu"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+resolution-markers = [
+    "(python_full_version >= '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "(python_full_version >= '3.10' and python_full_version < '3.12' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and python_full_version < '3.12' and sys_platform != 'darwin' and sys_platform != 'linux')",
+    "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')",
+]
+dependencies = [
+    { name = "numpy", version = "1.26.4", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(python_full_version < '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version < '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')" },
+    { name = "numpy", version = "2.1.2", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(python_full_version >= '3.10' and platform_machine != 'aarch64' and sys_platform == 'linux') or (python_full_version >= '3.10' and sys_platform != 'darwin' and sys_platform != 'linux')" },
+    { name = "pillow", marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
+    { name = "torch", version = "2.8.0.dev20250520+cpu", source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }, marker = "(platform_machine != 'aarch64' and sys_platform == 'linux') or (sys_platform != 'darwin' and sys_platform != 'linux')" },
+]
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520%2Bcpu-cp310-cp310-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520%2Bcpu-cp311-cp311-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520%2Bcpu-cp312-cp312-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520%2Bcpu-cp313-cp313-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520%2Bcpu-cp313-cp313t-manylinux_2_28_x86_64.whl" },
+    { url = "https://download.pytorch.org/whl/nightly/cpu/torchvision-0.22.0.dev20250520%2Bcpu-cp39-cp39-manylinux_2_28_x86_64.whl" },
+]
+
+[[package]]
+name = "typing-extensions"
+version = "4.12.2"
+source = { registry = "https://download.pytorch.org/whl/nightly/cpu" }
+wheels = [
+    { url = "https://download.pytorch.org/whl/nightly/typing_extensions-4.12.2-py3-none-any.whl" },
+]
