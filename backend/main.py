@@ -1,7 +1,6 @@
-
 from AIhandler import AIhandler
 handler: AIhandler = AIhandler()
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
 from pathlib import Path
@@ -14,6 +13,10 @@ import numpy as np
 import PIL.ImageDraw
 import io
 from ultralytics import YOLO
+import tempfile
+import shutil
+import os
+import json # Add this import
 
 apocosi = YOLO("yolo11n.pt")
 VideoUtility = utility()
@@ -79,7 +82,7 @@ def load_image_and_draw_bboxes(image_path: Path, bboxes: list[list[int]]) -> PIL
         for bbox in bboxes:
             xmin, ymin, xmax, ymax = bbox
             # Ensure coordinates are integers for drawing
-            draw.rectangle([int(xmin), int(ymin), int(xmax), int(ymax)], outline="red", width=3)
+            draw.rectangle([int(xmin), int(ymin), int(xmax, int(ymax))], outline="red", width=3)
         # return PIL.Image.fromarray(np.array(image)) # This returns a PIL.Image object
         return image # Return the modified image directly
     except FileNotFoundError:
@@ -109,14 +112,49 @@ async def read_item(image_filename: str):
     img_byte_arr.seek(0) # Rewind the buffer to the beginning
 
     return StreamingResponse(img_byte_arr, media_type="image/jpeg")
-@app.post("/video/")
-async def create_upload_file(file: UploadFile):
-    frames = utility.extract_frames(video_path=file.file)
-    print(file.file)
-    res = []
-    for frame in frames:
-        img = PIL.Image.fromarray(frame)
-        proccessed_raw_data = apocosi(source=img)
-        res.append(proccessed_raw_data)
-    
-    return {"data": res}
+
+@app.post("/video")
+async def create_upload_file(file: UploadFile=File(...)):
+    print("funciono pipidjhornhr")
+    tmp_video_path = None 
+    try:
+        # Create a temporary file to save the uploaded video
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp:
+            shutil.copyfileobj(file.file, tmp)
+            tmp_video_path = tmp.name
+        
+        print(f"Temporary video file saved at: {tmp_video_path}")
+        
+        frames = VideoUtility.extract_frames(video_path=tmp_video_path)
+        
+        res = []
+        video =[]
+        for frame in frames:
+            img = PIL.Image.fromarray(frame)
+            yolo_results_list = apocosi(source=img) # Returns a list of Results objects
+            if yolo_results_list:
+                # For a single image, yolo_results_list contains one Results object.
+                # Convert the Results object to a JSON string, then parse it into a Python dict.
+                json_string_output = yolo_results_list[0].to_json()
+                res.append(json.loads(json_string_output))
+            else:
+                res.append([]) # Handle cases where no objects are detected in a frame
+            draw = PIL.ImageDraw.Draw(img)
+            bboxes = []
+            if yolo_results_list:
+                for result in yolo_results_list:
+                    # Extract bounding boxes from the results
+                    bboxes.extend(result.boxes.xyxy.tolist())
+                for bbox in bboxes:
+                    xmin, ymin, xmax, ymax = bbox
+                    # Ensure coordinates are integers for drawing
+                    draw.rectangle([int(xmin), int(ymin), int(xmax, int(ymax))], outline="red", width=3)
+            video.append(np.array(img))
+
+        return {"data": res}
+    finally:
+        # Ensure the temporary file is deleted after processing
+        if tmp_video_path and os.path.exists(tmp_video_path):
+            os.remove(tmp_video_path)
+        # Close the uploaded file
+        await file.close()
