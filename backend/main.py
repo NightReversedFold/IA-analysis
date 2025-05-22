@@ -1,18 +1,22 @@
 
 from AIhandler import AIhandler
 handler: AIhandler = AIhandler()
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile
 from pydantic import BaseModel
 from fastapi.responses import StreamingResponse
 from pathlib import Path
 from utils.retrieve import get_image_details_for_class, parse_voc_annotation
+from utils.preproccess import utility
 import PIL.Image
 from tqdm import tqdm
 from fastapi.middleware.cors import CORSMiddleware
 import numpy as np
 import PIL.ImageDraw
 import io
+from ultralytics import YOLO
 
+apocosi = YOLO("yolo11n.pt")
+VideoUtility = utility()
 app = FastAPI()
 
 origins = [
@@ -99,9 +103,20 @@ async def read_item(image_filename: str):
     
     imag: PIL.Image.Image | None = load_image_and_draw_bboxes(path, specific_bboxes_for_class)
     
-    # Save PIL image to a BytesIO buffer
+  
     img_byte_arr = io.BytesIO()
     imag.save(img_byte_arr, format='JPEG') # Save as JPEG
     img_byte_arr.seek(0) # Rewind the buffer to the beginning
 
     return StreamingResponse(img_byte_arr, media_type="image/jpeg")
+@app.post("/video/")
+async def create_upload_file(file: UploadFile):
+    frames = utility.extract_frames(video_path=file.file)
+    print(file.file)
+    res = []
+    for frame in frames:
+        img = PIL.Image.fromarray(frame)
+        proccessed_raw_data = apocosi(source=img)
+        res.append(proccessed_raw_data)
+    
+    return {"data": res}
