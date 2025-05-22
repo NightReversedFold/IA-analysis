@@ -1,3 +1,4 @@
+
 from AIhandler import AIhandler
 handler: AIhandler = AIhandler()
 from fastapi import FastAPI, UploadFile, File
@@ -17,6 +18,7 @@ import tempfile
 import shutil
 import os
 import json # Add this import
+
 
 apocosi = YOLO("yolo11n.pt")
 VideoUtility = utility()
@@ -82,7 +84,7 @@ def load_image_and_draw_bboxes(image_path: Path, bboxes: list[list[int]]) -> PIL
         for bbox in bboxes:
             xmin, ymin, xmax, ymax = bbox
             # Ensure coordinates are integers for drawing
-            draw.rectangle([int(xmin), int(ymin), int(xmax, int(ymax))], outline="red", width=3)
+            draw.rectangle([int(xmin), int(ymin), int(xmax), int(ymax)], outline="red", width=3)
         # return PIL.Image.fromarray(np.array(image)) # This returns a PIL.Image object
         return image # Return the modified image directly
     except FileNotFoundError:
@@ -113,9 +115,14 @@ async def read_item(image_filename: str):
 
     return StreamingResponse(img_byte_arr, media_type="image/jpeg")
 
+
+
+
+
+
+
 @app.post("/video")
 async def create_upload_file(file: UploadFile=File(...)):
-    print("funciono pipidjhornhr")
     tmp_video_path = None 
     try:
         # Create a temporary file to save the uploaded video
@@ -133,8 +140,7 @@ async def create_upload_file(file: UploadFile=File(...)):
             img = PIL.Image.fromarray(frame)
             yolo_results_list = apocosi(source=img) # Returns a list of Results objects
             if yolo_results_list:
-                # For a single image, yolo_results_list contains one Results object.
-                # Convert the Results object to a JSON string, then parse it into a Python dict.
+               
                 json_string_output = yolo_results_list[0].to_json()
                 res.append(json.loads(json_string_output))
             else:
