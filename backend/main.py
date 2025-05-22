@@ -1,9 +1,8 @@
-
 from AIhandler import AIhandler
 handler: AIhandler = AIhandler()
 from fastapi import FastAPI, UploadFile, File
 from pydantic import BaseModel
-from fastapi.responses import StreamingResponse
+from fastapi.responses import StreamingResponse, FileResponse # Modified
 from pathlib import Path
 from utils.retrieve import get_image_details_for_class, parse_voc_annotation
 from utils.preproccess import utility
@@ -17,7 +16,9 @@ from ultralytics import YOLO
 import tempfile
 import shutil
 import os
-import json # Add this import
+import json
+import cv2  # Added
+from starlette.background import BackgroundTask  # Added
 
 
 apocosi = YOLO("yolo11n.pt")
@@ -108,6 +109,8 @@ async def read_item(image_filename: str):
     
     imag: PIL.Image.Image | None = load_image_and_draw_bboxes(path, specific_bboxes_for_class)
     
+    if imag is None: # Added check for None
+        return {"error": f"Image {image_filename} not found or could not be processed."}, 404
   
     img_byte_arr = io.BytesIO()
     imag.save(img_byte_arr, format='JPEG') # Save as JPEG
@@ -116,51 +119,104 @@ async def read_item(image_filename: str):
     return StreamingResponse(img_byte_arr, media_type="image/jpeg")
 
 
-
-
-
-
-
 @app.post("/video")
-async def create_upload_file(file: UploadFile=File(...)):
-    tmp_video_path = None 
-    try:
-        # Create a temporary file to save the uploaded video
-        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp:
-            shutil.copyfileobj(file.file, tmp)
-            tmp_video_path = tmp.name
-        
-        print(f"Temporary video file saved at: {tmp_video_path}")
-        
-        frames = VideoUtility.extract_frames(video_path=tmp_video_path)
-        
-        res = []
-        video =[]
-        for frame in frames:
-            img = PIL.Image.fromarray(frame)
-            yolo_results_list = apocosi(source=img) # Returns a list of Results objects
-            if yolo_results_list:
-               
-                json_string_output = yolo_results_list[0].to_json()
-                res.append(json.loads(json_string_output))
-            else:
-                res.append([]) # Handle cases where no objects are detected in a frame
-            draw = PIL.ImageDraw.Draw(img)
-            bboxes = []
-            if yolo_results_list:
-                for result in yolo_results_list:
-                    # Extract bounding boxes from the results
-                    bboxes.extend(result.boxes.xyxy.tolist())
-                for bbox in bboxes:
-                    xmin, ymin, xmax, ymax = bbox
-                    # Ensure coordinates are integers for drawing
-                    draw.rectangle([int(xmin), int(ymin), int(xmax, int(ymax))], outline="red", width=3)
-            video.append(np.array(img))
+async def create_upload_file(file: UploadFile = File(...)):
+    temp_input_file_path = None
+    temp_output_file_path = None
 
-        return {"data": res}
+    try:
+        # 1. Save uploaded video to a temporary file
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".mp4") as tmp_upload_fileobj:
+            shutil.copyfileobj(file.file, tmp_upload_fileobj)
+            temp_input_file_path = tmp_upload_fileobj.name
+        
+        await file.close() # Close the uploaded file stream
+
+        # 2. Get video properties (FPS) from the input video
+        cap = cv2.VideoCapture(temp_input_file_path)
+        if not cap.isOpened():
+            raise RuntimeError(f"Could not open video file for reading properties: {temp_input_file_path}")
+        
+        fps = cap.get(cv2.CAP_PROP_FPS)
+        cap.release()
+
+        if fps <= 0: 
+            fps = 30.0 
+
+        extracted_frames_rgb = VideoUtility.extract_frames(video_path=temp_input_file_path)
+        
+        if not extracted_frames_rgb:
+            raise ValueError("No frames extracted from video or video is empty.")
+
+        processed_bgr_frames_for_video = []
+        
+        for frame_rgb in tqdm(extracted_frames_rgb, desc="Processing video frames"):
+            yolo_results_list = apocosi(source=frame_rgb, verbose=False) 
+            
+            if yolo_results_list: 
+                yolo_result = yolo_results_list[0] 
+                frame_with_boxes_bgr = yolo_result.plot() 
+                processed_bgr_frames_for_video.append(frame_with_boxes_bgr)
+            else:
+                original_frame_bgr = cv2.cvtColor(frame_rgb, cv2.COLOR_RGB2BGR)
+                processed_bgr_frames_for_video.append(original_frame_bgr)
+
+        if not processed_bgr_frames_for_video:
+            raise ValueError("No frames were processed or available for video creation.")
+
+        h_out, w_out, _ = processed_bgr_frames_for_video[0].shape
+        
+        _temp_output_file_obj = tempfile.NamedTemporaryFile(delete=False, suffix=".mp4")
+        temp_output_file_path = _temp_output_file_obj.name
+        _temp_output_file_obj.close() 
+
+        # Try common FourCC codes
+        # For MP4, 'mp4v' is common on many systems, 'avc1' for H.264, or 'h264'
+        # For AVI, 'XVID' or 'MJPG' are common
+        # The availability depends on the OpenCV build and installed codecs.
+        # Using integer 0x7634706d for 'mp4v' as a fallback if string version fails
+        try:
+            fourcc = cv2.VideoWriter_fourcc(*'mp4v') 
+        except AttributeError:
+            print("cv2.VideoWriter_fourcc not found, trying direct integer for 'mp4v'")
+            fourcc = 0x7634706d # Integer for 'mp4v'
+        
+        out_video_writer = cv2.VideoWriter(temp_output_file_path, fourcc, float(fps), (w_out, h_out))
+        
+        if not out_video_writer.isOpened():
+            print(f"Failed to open VideoWriter with mp4v (fourcc: {fourcc}). Trying XVID.")
+            try:
+                fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            except AttributeError:
+                print("cv2.VideoWriter_fourcc not found, trying direct integer for 'XVID'")
+                fourcc = 0x44495658 # Integer for 'XVID'
+            out_video_writer = cv2.VideoWriter(temp_output_file_path, fourcc, float(fps), (w_out, h_out))
+            if not out_video_writer.isOpened():
+                 raise RuntimeError(f"Could not open VideoWriter for the output file: {temp_output_file_path}. Tried mp4v and XVID.")
+
+        for bgr_frame in processed_bgr_frames_for_video:
+            out_video_writer.write(bgr_frame)
+        
+        out_video_writer.release()
+        
+        return FileResponse(
+            path=temp_output_file_path, 
+            media_type="video/mp4", 
+            filename="processed_video.mp4",
+            background=BackgroundTask(os.remove, temp_output_file_path)
+        )
+
+    except Exception as e:
+        print(f"Error processing video: {e}") 
+        if temp_output_file_path and os.path.exists(temp_output_file_path):
+            try:
+                os.remove(temp_output_file_path)
+            except Exception as cleanup_exc:
+                print(f"Error during cleanup of output file: {cleanup_exc}")
+        return {"error": f"An error occurred: {str(e)}"}
     finally:
-        # Ensure the temporary file is deleted after processing
-        if tmp_video_path and os.path.exists(tmp_video_path):
-            os.remove(tmp_video_path)
-        # Close the uploaded file
-        await file.close()
+        if temp_input_file_path and os.path.exists(temp_input_file_path):
+            try:
+                os.remove(temp_input_file_path)
+            except Exception as cleanup_exc:
+                print(f"Error during cleanup of input file: {cleanup_exc}")

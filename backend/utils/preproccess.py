@@ -23,7 +23,7 @@ class utility():
         image = F.interpolate(image, size=(128, 128), mode='bilinear')
         return image
       
-    def extract_frames(self, video_path, start=-1, end=-1, every=30):
+    def extract_frames(self, video_path, start=-1, end=-1, every=5):
         """
         Extract frames from a video using OpenCV and return them as a list of NumPy arrays (RGB).
         :param video_path: path of the video
